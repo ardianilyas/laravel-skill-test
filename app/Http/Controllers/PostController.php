@@ -14,7 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::query()->active()->with('user')->paginate(20)->get();
+        $posts = Post::query()->active()->with('user')->paginate(20);
 
         return response()->json($posts);
     }
@@ -25,6 +25,8 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $data = $request->validated();
+
+        $data['user_id'] = $request->user()->id;
 
         if ($data['published_at'] === null && $data['is_draft'] === false) {
             $data['published_at'] = now();

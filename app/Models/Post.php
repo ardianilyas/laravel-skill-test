@@ -21,12 +21,14 @@ class Post extends Model
         'published_at',
     ];
 
-    public function user(): BelongsTo {
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
     #[Scope]
-    protected function active(Builder $query): void {
+    protected function active(Builder $query): void
+    {
         $query->where('is_draft', false)->where('published_at', '<=', now());
     }
 }

@@ -15,11 +15,13 @@ class PostPolicy
         //
     }
 
-    public function update(Post $post, User $user) {
+    public function update(Post $post, User $user)
+    {
         return $user->id === $post->user_id;
     }
 
-    public function delete(Post $post, User $user) {
+    public function delete(Post $post, User $user)
+    {
         return $user->id === $post->user_id;
     }
 }

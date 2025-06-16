@@ -15,6 +15,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::query()->active()->with('user')->paginate(20)->get();
+
         return response()->json($posts);
     }
 
@@ -25,11 +26,11 @@ class PostController extends Controller
     {
         $data = $request->validated();
 
-        if($data['published_at'] === null && $data['is_draft'] === false) {
+        if ($data['published_at'] === null && $data['is_draft'] === false) {
             $data['published_at'] = now();
         }
 
-        if($data['published_at'] >= now()) {
+        if ($data['published_at'] >= now()) {
             $data['is_draft'] = false;
         }
 
@@ -51,7 +52,7 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        if($request->user()->cannot('update', $post)) {
+        if ($request->user()->cannot('update', $post)) {
             return response()->json(['message' => 'You are not authorized to update this post.'], 403);
         }
 
@@ -67,7 +68,7 @@ class PostController extends Controller
      */
     public function destroy(Request $request, Post $post)
     {
-        if($request->user()->cannot('delete', $post)) {
+        if ($request->user()->cannot('delete', $post)) {
             return response()->json(['message' => 'You are not authorized to delete this post.'], 403);
         }
 
